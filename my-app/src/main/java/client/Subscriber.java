@@ -7,13 +7,13 @@ public class Subscriber {
     private static final String TOPIC = "cal-poly/csc/309";
     private static final String CLIENT_ID = "jgs-subscriber";
     private MqttClient mqttClient;
-    private Repository repository;
-    private DrawArea drawArea;
+    private RepositorySubscriber repositorySubscriber;
+    private DrawAreaSubscriber drawAreaSubscriber;
 
     // Constructor for the Subscriber class
     public Subscriber() {
-        repository = new Repository();
-        drawArea = new DrawArea(this);
+        repositorySubscriber = new RepositorySubscriber();
+        drawAreaSubscriber = new DrawAreaSubscriber(this);
 
         try {
             mqttClient = new MqttClient(BROKER, CLIENT_ID);
@@ -43,7 +43,7 @@ public class Subscriber {
                     int y = Integer.parseInt(coords[1]);
 
                     // Draw the circle based on the received coordinates
-                    drawArea.addCoordinateToDraw(x, y);
+                    drawAreaSubscriber.addCoordinateToDraw(x, y);
                     System.out.println("Received Coordinates: " + x + "," + y);
                 }
 
@@ -72,13 +72,13 @@ public class Subscriber {
         }
     }
 
-    public Repository getRepository() {
-        return repository;
+    public RepositorySubscriber getRepository() {
+        return repositorySubscriber;
     }
 
     // Set the DrawArea
-    public void setDrawArea(DrawArea drawArea) {
-        this.drawArea = drawArea;
+    public void setDrawArea(DrawAreaSubscriber drawAreaSubscriber) {
+        this.drawAreaSubscriber = drawAreaSubscriber;
     }
 
 }

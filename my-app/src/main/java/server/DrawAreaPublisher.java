@@ -6,15 +6,15 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawArea extends JPanel {
+public class DrawAreaPublisher extends JPanel {
     private Publisher publisher;
-    private Repository repository;
-    private List<Repository.Coordinate> coordinatesToDraw;
+    private RepositoryPublisher repositoryPublisher;
+    private List<RepositoryPublisher.Coordinate> coordinatesToDraw;
 
     // Constructor where Publisher is passed for interaction
-    public DrawArea(Publisher publisher) {
+    public DrawAreaPublisher(Publisher publisher) {
         this.publisher = publisher;
-        this.repository = publisher.getRepository();
+        this.repositoryPublisher = publisher.getRepository();
         this.coordinatesToDraw = new ArrayList<>();
 
         // Mouse listener to detect clicks and send coordinates
@@ -25,7 +25,7 @@ public class DrawArea extends JPanel {
                 int y = e.getY();
 
                 // Store the coordinate in the repository
-                repository.addCoordinate(x, y);
+                repositoryPublisher.addCoordinate(x, y);
 
                 // Publish the coordinates to MQTT
                 publisher.publishCoordinates(x, y);
@@ -42,14 +42,14 @@ public class DrawArea extends JPanel {
 
         // Draw all stored coordinates as circles
         g.setColor(Color.RED);
-        for (Repository.Coordinate coordinate : coordinatesToDraw) {
+        for (RepositoryPublisher.Coordinate coordinate : coordinatesToDraw) {
             g.fillOval(coordinate.x - 10, coordinate.y - 10, 20, 20); // Draw circle at the location
         }
     }
 
     // Method to add a coordinate to the list and trigger a repaint
     public void addCoordinateToDraw(int x, int y) {
-        coordinatesToDraw.add(new Repository.Coordinate(x, y));
+        coordinatesToDraw.add(new RepositoryPublisher.Coordinate(x, y));
         repaint(); // Repaint the panel for the new circle
     }
 

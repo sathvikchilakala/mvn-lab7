@@ -3,13 +3,13 @@ package server;
 import javax.swing.*;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
-public class Main extends JFrame {
+public class MainPublisher extends JFrame {
 
     private Publisher publisher;
-    private DrawArea drawArea;
+    private DrawAreaPublisher drawAreaPublisher;
 
     // Constructor for Main
-    public Main() {
+    public MainPublisher() {
         // Initialize the Publisher that handles MQTT communication
         try {
             publisher = new Publisher();
@@ -18,17 +18,17 @@ public class Main extends JFrame {
         }
 
         // Initialize the DrawArea which interacts with the Publisher
-        drawArea = new DrawArea(publisher);
+        drawAreaPublisher = new DrawAreaPublisher(publisher);
 
         // Set the DrawArea in Publisher so it can draw circles
-        publisher.setDrawArea(drawArea);
+        publisher.setDrawArea(drawAreaPublisher);
 
         // Set up the JFrame properties
         setTitle("Publisher - Draw and Send Coordinates");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new java.awt.BorderLayout());
-        add(drawArea, java.awt.BorderLayout.CENTER);
+        add(drawAreaPublisher, java.awt.BorderLayout.CENTER);
         setVisible(true);
 
         // Start the subscribing process in the Publisher
@@ -37,6 +37,6 @@ public class Main extends JFrame {
 
     // Main method to run the application
     public static void main(String[] args) {
-        new Main();
+        new MainPublisher();
     }
 }

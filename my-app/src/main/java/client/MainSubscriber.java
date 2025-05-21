@@ -3,28 +3,28 @@ package client;
 import javax.swing.*;
 
 
-public class Main extends JFrame {
+public class MainSubscriber extends JFrame {
 
     private Subscriber subscriber;
-    private DrawArea drawArea;
+    private DrawAreaSubscriber drawAreaSubscriber;
 
     // Constructor for Main that extends JFrame
-    public Main() {
+    public MainSubscriber() {
         // Initialize the Subscriber to handle MQTT communication
         subscriber = new Subscriber();
 
         // Initialize the DrawArea which interacts with the Subscriber
-        drawArea = new DrawArea(subscriber);
+        drawAreaSubscriber = new DrawAreaSubscriber(subscriber);
 
         // Set the DrawArea in Subscriber so it can draw circles
-        subscriber.setDrawArea(drawArea);
+        subscriber.setDrawArea(drawAreaSubscriber);
 
         // Set up the JFrame properties
         setTitle("Subscriber - Receive and Draw Coordinates");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new java.awt.BorderLayout());
-        add(drawArea, java.awt.BorderLayout.CENTER);
+        add(drawAreaSubscriber, java.awt.BorderLayout.CENTER);
         setVisible(true);
 
         // Start the subscription process in the Subscriber
@@ -33,6 +33,6 @@ public class Main extends JFrame {
 
     // Main method to run the application
     public static void main(String[] args) {
-        new Main();
+        new MainSubscriber();
     }
 }

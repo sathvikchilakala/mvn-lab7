@@ -7,12 +7,12 @@ public class Publisher {
     private static final String TOPIC = "cal-poly/csc/309"; // MQTT Topic
     private static final String CLIENT_ID = "jgs-publisher";
     private MqttClient mqttClient;
-    private Repository repository;
-    private DrawArea drawArea;
+    private RepositoryPublisher repositoryPublisher;
+    private DrawAreaPublisher drawAreaPublisher;
 
     // Constructor for the Publisher class
     public Publisher() throws MqttException {
-        repository = new Repository();
+        repositoryPublisher = new RepositoryPublisher();
 
         // Setup MQTT client and connect to the broker
         mqttClient = new MqttClient(BROKER, CLIENT_ID);
@@ -21,7 +21,7 @@ public class Publisher {
     }
 
 
-    // Publish coordinates (x, y) to the MQTT broker
+    // Publish coordinates to the MQTT broker
     public void publishCoordinates(int x, int y) {
         try {
             String messageContent = x + "," + y;
@@ -55,7 +55,7 @@ public class Publisher {
                     int y = Integer.parseInt(coords[1]);
 
                     // Draw the circle based on the received coordinates
-                    drawArea.addCoordinateToDraw(x, y);
+                    drawAreaPublisher.addCoordinateToDraw(x, y);
                     System.out.println("Received Coordinates: " + x + "," + y);
                 }
 
@@ -69,12 +69,12 @@ public class Publisher {
         }
     }
 
-    public Repository getRepository() {
-        return repository;
+    public RepositoryPublisher getRepository() {
+        return repositoryPublisher;
     }
 
     // Set the DrawArea (called from Main.java)
-    public void setDrawArea(DrawArea drawArea) {
-        this.drawArea = drawArea;
+    public void setDrawArea(DrawAreaPublisher drawAreaPublisher) {
+        this.drawAreaPublisher = drawAreaPublisher;
     }
 }
