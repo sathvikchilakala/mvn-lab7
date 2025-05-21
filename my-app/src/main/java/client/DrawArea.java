@@ -28,7 +28,7 @@ public class DrawArea extends JPanel {
                 repository.addCoordinate(x, y);
 
                 // bi-directional
-                 subscriber.publishCoordinates(x, y);
+                subscriber.publishCoordinates(x, y);
                 System.out.println("Clicked at: " + x + "," + y);
             }
         });

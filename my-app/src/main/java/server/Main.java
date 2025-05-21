@@ -32,7 +32,7 @@ public class Main extends JFrame {
         setVisible(true);  // Make the frame visible
 
         // Start the publishing process in the Publisher
-        publisher.startPublishing();
+//        publisher.startPublishing();
     }
 
     // Main method to run the application
