@@ -8,9 +8,9 @@ public class Main extends JFrame {
     private Publisher publisher;
     private DrawArea drawArea;
 
-    // Constructor for Main that extends JFrame
+    // Constructor for Main
     public Main() {
-        // Initialize the Publisher (this will handle MQTT communication)
+        // Initialize the Publisher that handles MQTT communication
         try {
             publisher = new Publisher();
         } catch (MqttException e) {
@@ -31,8 +31,8 @@ public class Main extends JFrame {
         add(drawArea, java.awt.BorderLayout.CENTER);  // Add the DrawArea (UI) to the frame
         setVisible(true);  // Make the frame visible
 
-        // Start the publishing process in the Publisher
-//        publisher.startPublishing();
+        // Start the subscribing process in the Publisher
+        publisher.subscribeToCoordinates();
     }
 
     // Main method to run the application

@@ -51,9 +51,4 @@ public class DrawArea extends JPanel {
         coordinatesToDraw.add(new Repository.Coordinate(x, y));
         repaint(); // Repaint the panel for the new circle
     }
-
-    // Method to handle received coordinates and draw the circle
-    public void drawCircle(int x, int y) {
-        addCoordinateToDraw(x, y);
-    }
 }
