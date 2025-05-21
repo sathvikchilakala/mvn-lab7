@@ -28,8 +28,8 @@ public class Main extends JFrame {
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new java.awt.BorderLayout());
-        add(drawArea, java.awt.BorderLayout.CENTER);  // Add the DrawArea (UI) to the frame
-        setVisible(true);  // Make the frame visible
+        add(drawArea, java.awt.BorderLayout.CENTER);
+        setVisible(true);
 
         // Start the subscribing process in the Publisher
         publisher.subscribeToCoordinates();

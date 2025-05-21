@@ -1,7 +1,7 @@
 package client;
 
 import javax.swing.*;
-import org.eclipse.paho.client.mqttv3.MqttException;
+
 
 public class Main extends JFrame {
 
@@ -10,7 +10,7 @@ public class Main extends JFrame {
 
     // Constructor for Main that extends JFrame
     public Main() {
-        // Initialize the Subscriber (this will handle MQTT communication)
+        // Initialize the Subscriber to handle MQTT communication
         subscriber = new Subscriber();
 
         // Initialize the DrawArea which interacts with the Subscriber
@@ -24,8 +24,8 @@ public class Main extends JFrame {
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new java.awt.BorderLayout());
-        add(drawArea, java.awt.BorderLayout.CENTER);  // Add the DrawArea (UI) to the frame
-        setVisible(true);  // Make the frame visible
+        add(drawArea, java.awt.BorderLayout.CENTER);
+        setVisible(true);
 
         // Start the subscription process in the Subscriber
         subscriber.subscribeToCoordinates();

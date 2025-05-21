@@ -3,8 +3,8 @@ package client;
 import org.eclipse.paho.client.mqttv3.*;
 
 public class Subscriber {
-    private static final String BROKER = "tcp://test.mosquitto.org:1883"; // MQTT Broker URL
-    private static final String TOPIC = "cal-poly/csc/309"; // MQTT Topic
+    private static final String BROKER = "tcp://test.mosquitto.org:1883";
+    private static final String TOPIC = "cal-poly/csc/309";
     private static final String CLIENT_ID = "jgs-subscriber";
     private MqttClient mqttClient;
     private Repository repository;
@@ -76,7 +76,7 @@ public class Subscriber {
         return repository;
     }
 
-    // Set the DrawArea (called from Main.java)
+    // Set the DrawArea
     public void setDrawArea(DrawArea drawArea) {
         this.drawArea = drawArea;
     }

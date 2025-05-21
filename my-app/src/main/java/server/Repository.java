@@ -2,7 +2,7 @@ package server;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.Array;
+
 
 class Repository {
     private List<Coordinate> coordinates;
@@ -16,10 +16,6 @@ class Repository {
         coordinates.add(new Coordinate(x, y));
     }
 
-//    public int[] ShowRepo(){
-//        int[] coords = {this.x,this.y};
-//        return(coords);
-//    }
 
     public List<Coordinate> getCoordinates() {
         return coordinates;

@@ -20,25 +20,6 @@ public class Publisher {
         System.out.println("Connected to BROKER: " + BROKER);
     }
 
-//    // Method to start the publishing process
-//    public void startPublishing() {
-//        try {
-//            int counter = 0;
-//            while (true) {
-//                String content = counter + "," + (counter * 2);  // Sending x, y coordinates (e.g., "0,0", "1,2", etc.)
-//                MqttMessage message = new MqttMessage(content.getBytes());
-//                message.setQos(2); // QoS 2 ensures exactly once delivery
-//
-//                if (mqttClient.isConnected()) {
-//                    mqttClient.publish(TOPIC, message);
-//                    System.out.println("Message published: " + content);
-//                }
-//                counter++;
-//            }
-//        } catch (MqttException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     // Publish coordinates (x, y) to the MQTT broker
     public void publishCoordinates(int x, int y) {
