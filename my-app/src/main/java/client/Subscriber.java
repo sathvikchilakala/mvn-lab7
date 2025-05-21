@@ -2,48 +2,83 @@ package client;
 
 import org.eclipse.paho.client.mqttv3.*;
 
-/**
- * This class is a simple MQTT subscriber that listens to a TOPIC.
- * The BROKER is test.mosquitto.org and the TOPIC is cal-poly/csc/309.
- * (run this and the publisher at the same time)
- *
- * @author javiergs
- * @version 1.0
- */
-public class Subscriber implements MqttCallback {
+public class Subscriber {
+    private static final String BROKER = "tcp://test.mosquitto.org:1883"; // MQTT Broker URL
+    private static final String TOPIC = "cal-poly/csc/309"; // MQTT Topic
+    private static final String CLIENT_ID = "jgs-subscriber";
+    private MqttClient mqttClient;
+    private Repository repository;
+    private DrawArea drawArea;
 
-    private final static String BROKER = "tcp://test.mosquitto.org:1883";
-    private final static String TOPIC = "cal-poly/csc/309";
-    private final static String CLIENT_ID = "jgs-subscriber";
+    // Constructor for the Subscriber class
+    public Subscriber() {
+        repository = new Repository();
+        drawArea = new DrawArea(this);
 
-    public static void main(String[] args) {
         try {
-            MqttClient client = new MqttClient(BROKER, CLIENT_ID);
-            Subscriber subscriber = new Subscriber();
-            client.setCallback(subscriber);
-            client.connect();
+            mqttClient = new MqttClient(BROKER, CLIENT_ID);
+            mqttClient.connect();
             System.out.println("Connected to BROKER: " + BROKER);
-            client.subscribe(TOPIC);
-            System.out.println("Subscribed to TOPIC: " + TOPIC);
         } catch (MqttException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void connectionLost(Throwable throwable) {
-        System.out.println("Connection lost: " + throwable.getMessage());
+    // Method to subscribe to the topic and receive coordinates
+    public void subscribeToCoordinates() {
+        try {
+            mqttClient.subscribe(TOPIC);
+            mqttClient.setCallback(new MqttCallback() {
+                @Override
+                public void connectionLost(Throwable cause) {
+                    // Handle connection loss
+                    System.out.println("Connection lost: " + cause);
+                }
+
+                @Override
+                public void messageArrived(String topic, MqttMessage message) {
+                    // Parse the received message
+                    String[] coords = new String(message.getPayload()).split(",");
+                    int x = Integer.parseInt(coords[0]);
+                    int y = Integer.parseInt(coords[1]);
+
+                    // Draw the circle based on the received coordinates
+                    drawArea.addCoordinateToDraw(x, y);
+                    System.out.println("Received Coordinates: " + x + "," + y);
+                }
+
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken token) {
+                    System.out.println("Delivered complete: " + token.getMessageId());
+                }
+            });
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public void messageArrived(String s, MqttMessage mqttMessage) {
-        System.out.println("Message arrived. Topic: " + s +
-                " Message: " + new String(mqttMessage.getPayload()));
+    // Method to publish coordinates back to the MQTT broker
+    public void publishCoordinates(int x, int y) {
+        try {
+            String messageContent = x + "," + y;
+            MqttMessage message = new MqttMessage(messageContent.getBytes());
+            message.setQos(2);
+            if (mqttClient.isConnected()) {
+                mqttClient.publish(TOPIC, message);
+                System.out.println("Coordinates published: " + messageContent);
+            }
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-        System.out.println("Delivered complete: " + iMqttDeliveryToken.getMessageId());
+    public Repository getRepository() {
+        return repository;
+    }
+
+    // Set the DrawArea (called from Main.java)
+    public void setDrawArea(DrawArea drawArea) {
+        this.drawArea = drawArea;
     }
 
 }

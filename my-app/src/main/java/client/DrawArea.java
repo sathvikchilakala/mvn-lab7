@@ -1,4 +1,4 @@
-package server;
+package client;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,17 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DrawArea extends JPanel {
-    private Publisher publisher;
+    private Subscriber subscriber;
     private Repository repository;
     private List<Repository.Coordinate> coordinatesToDraw;
 
-    // Constructor where Publisher is passed for interaction
-    public DrawArea(Publisher publisher) {
-        this.publisher = publisher;
-        this.repository = publisher.getRepository();
+    // Constructor where Subscriber is passed
+    public DrawArea(Subscriber subscriber) {
+        this.subscriber = subscriber;
+        this.repository = subscriber.getRepository();
         this.coordinatesToDraw = new ArrayList<>();
 
-        // Mouse listener to detect clicks and send coordinates
+        // Mouse listener to detect clicks and send coordinates back to publisher
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -27,10 +27,9 @@ public class DrawArea extends JPanel {
                 // Store the coordinate in the repository
                 repository.addCoordinate(x, y);
 
-                // Publish the coordinates to MQTT
-                publisher.publishCoordinates(x, y);
-                addCoordinateToDraw(x,y);
-                System.out.println("Published Coordinates: " + x + "," + y);
+                // bi-directional
+                 subscriber.publishCoordinates(x, y);
+                System.out.println("Clicked at: " + x + "," + y);
             }
         });
     }
@@ -50,7 +49,7 @@ public class DrawArea extends JPanel {
     // Method to add a coordinate to the list and trigger a repaint
     public void addCoordinateToDraw(int x, int y) {
         coordinatesToDraw.add(new Repository.Coordinate(x, y));
-        repaint(); // Repaint the panel to reflect the new circle
+        repaint(); // Repaint the panel for the new circle
     }
 
     // Method to handle received coordinates and draw the circle
