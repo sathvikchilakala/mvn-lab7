@@ -8,12 +8,12 @@ public class Subscriber {
     private static final String CLIENT_ID = "jgs-subscriber";
     private MqttClient mqttClient;
     private RepositorySubscriber repositorySubscriber;
-    private DrawAreaSubscriber drawAreaSubscriber;
+    private DrawPanelSubscriber drawPanelSubscriber;
 
     // Constructor for the Subscriber class
     public Subscriber() {
         repositorySubscriber = new RepositorySubscriber();
-        drawAreaSubscriber = new DrawAreaSubscriber(this);
+        drawPanelSubscriber = new DrawPanelSubscriber(this);
 
         try {
             mqttClient = new MqttClient(BROKER, CLIENT_ID);
@@ -43,7 +43,7 @@ public class Subscriber {
                     int y = Integer.parseInt(coords[1]);
 
                     // Draw the circle based on the received coordinates
-                    drawAreaSubscriber.addCoordinateToDraw(x, y);
+                    drawPanelSubscriber.addCoordinateToDraw(x, y);
                     System.out.println("Received Coordinates: " + x + "," + y);
                 }
 
@@ -77,8 +77,8 @@ public class Subscriber {
     }
 
     // Set the DrawArea
-    public void setDrawArea(DrawAreaSubscriber drawAreaSubscriber) {
-        this.drawAreaSubscriber = drawAreaSubscriber;
+    public void setDrawArea(DrawPanelSubscriber drawPanelSubscriber) {
+        this.drawPanelSubscriber = drawPanelSubscriber;
     }
 
 }

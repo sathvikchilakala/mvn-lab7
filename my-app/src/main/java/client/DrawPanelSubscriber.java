@@ -6,13 +6,13 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawAreaSubscriber extends JPanel {
+public class DrawPanelSubscriber extends JPanel {
     private Subscriber subscriber;
     private RepositorySubscriber repositorySubscriber;
     private List<RepositorySubscriber.Coordinate> coordinatesToDraw;
 
     // Constructor where Subscriber is passed
-    public DrawAreaSubscriber(Subscriber subscriber) {
+    public DrawPanelSubscriber(Subscriber subscriber) {
         this.subscriber = subscriber;
         this.repositorySubscriber = subscriber.getRepository();
         this.coordinatesToDraw = new ArrayList<>();
